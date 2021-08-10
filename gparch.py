@@ -345,7 +345,10 @@ class PhotosAccount(object):
         request = (
             self.service.mediaItems().search(body=request_body).execute()
         )  # 100 is max
+
+        photos_count = 0
         while True:
+            photos_count += 50
             album_items += request["mediaItems"]
             if "nextPageToken" in request:
                 request_body["pageToken"] = request["nextPageToken"]
@@ -386,7 +389,8 @@ class PhotosAccount(object):
         while True:
             if self.debug:
                 save_json(request, 'debug/media' + str(num) + '.json')
-            media_items_list += request["mediaItems"]
+            if "mediaItems" in request
+                media_items_list += request["mediaItems"]
             if "nextPageToken" in request:
                 next_page = request["nextPageToken"]
                 request = (
